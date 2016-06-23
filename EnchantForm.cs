@@ -55,7 +55,7 @@ namespace INVedit
 				enchantments.Clear();
 				if (tag.Contains("tag") && tag["tag"].Contains("ench"))
 					foreach (var ench in tag["tag"]["ench"]) {
-					short id = (short)ench["id"];
+					string id = (string)ench["id"];
 					if (enchantments.ContainsKey(id))
 						MessageBox.Show("Duplicate enchantment with ID '"+slot+"' discarded.",
 						                "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -77,7 +77,7 @@ namespace INVedit
 		}
 		
 		Data.Enchantment lastEnchantment = null;
-		void SelectEnchantment(short id)
+		void SelectEnchantment(string id)
 		{
 			boxEnchantments.ItemSelectionChanged -= BoxEnchantmentsItemSelectionChanged;
 			editId.ValueChanged -= EditIdValueChanged;
@@ -152,7 +152,7 @@ namespace INVedit
 					slot.Item.tag["tag"].Add("ench", NbtTag.CreateList(NbtTagType.Compound));
 				NbtTag tag = null;
 				foreach (var ench in slot.Item.tag["tag"]["ench"])
-					if ((short)ench["id"] == enchantment.id) { tag = ench; break; }
+					if ((string)ench["id"] == enchantment.id) { tag = ench; break; }
 				if (tag == null) {
 					tag = NbtTag.CreateCompound(
 						"id", enchantment.id,
@@ -166,16 +166,16 @@ namespace INVedit
 				} else {
 					tag["lvl"].Value = level;
 					foreach (ListViewItem item in boxEnchantments.Items)
-						if ((short)item.Tag == enchantment.id)
+						if ((string)item.Tag == enchantment.id)
 							item.SubItems[1].Text = editLevel.Value.ToString();
 				}
 			} else {
 				NbtTag tag = null;
 				foreach (var ench in slot.Item.tag["tag"]["ench"])
-					if ((short)ench["id"] == enchantment.id) { tag = ench; break; }
+					if ((string)ench["id"] == enchantment.id) { tag = ench; break; }
 				tag.Remove();
 				foreach (ListViewItem item in boxEnchantments.Items)
-					if ((short)item.Tag == enchantment.id) { item.Remove(); break; }
+					if ((string)item.Tag == enchantment.id) { item.Remove(); break; }
 				if (slot.Item.tag["tag"]["ench"].Count == 0)
 					slot.Item.tag["tag"]["ench"].Remove();
 				if (slot.Item.tag["tag"].Count == 0)
@@ -192,7 +192,7 @@ namespace INVedit
 		
 		void EditIdValueChanged(object sender, EventArgs e)
 		{
-			SelectEnchantment((short)editId.Value);
+			SelectEnchantment((string)editId.Value.ToString());
 		}
 		void BoxNameSelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -202,7 +202,7 @@ namespace INVedit
 		void BoxEnchantmentsItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
 		{
 			if (e.IsSelected)
-				SelectEnchantment((short)e.Item.Tag);
+				SelectEnchantment((string)e.Item.Tag);
 			else DeselectEnchantment();
 		}
 		

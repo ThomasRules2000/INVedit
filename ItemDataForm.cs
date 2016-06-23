@@ -41,10 +41,10 @@ namespace INVedit
 			
 			boxName.Enabled = (item != null);
 			boxLore.Enabled = (item != null);
-			boxColor.Enabled = (item != null && (item.ID == 298 || item.ID == 299 ||
-			                                     item.ID == 300 || item.ID == 301));
+			boxColor.Enabled = (item != null && (item.ID == "minecraft:leather_helmet" || item.ID == "minecraft:leather_chestplate" ||
+			                                     item.ID == "minecraft:leather_leggings" || item.ID == "minecraft:leather_boots"));
 			panelColor.Enabled = boxColor.Enabled;
-			boxPlayer.Enabled = (item != null && item.ID == 397);
+			boxPlayer.Enabled = (item != null && item.ID == "minecraft:skull");
 			
 			if (item != null && item.tag.Contains("tag")) {
 				var tag = item.tag["tag"];

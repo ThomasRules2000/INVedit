@@ -16,7 +16,7 @@ namespace INVedit
 		public static readonly Items items = new Items();
 		public static readonly Dictionary<string, Group> groups = new Dictionary<string, Group>();
 		public static readonly List<short> enchantable = new List<short>();
-		public static readonly Dictionary<short, Enchantment> enchantments = new Dictionary<short, Enchantment>();
+		public static readonly Dictionary<string, Enchantment> enchantments = new Dictionary<string, Enchantment>();
 		
 		public static Image unknown;
 		public static int version = int.MinValue;
@@ -55,8 +55,8 @@ namespace INVedit
 					else { if (split.Length < 4 || split.Length > 5) throw ex; }
 					if (line[0]=='~') {
 						string name = split[1].Replace('_', ' ');
-						short icon;
-						try { icon = short.Parse(split[2]); }
+						string icon;
+						try { icon = split[2]; }
 						catch (Exception e) { throw new DataException("Failed to parse column 'ICON'.", e); }
 						if (!items.ContainsKey(icon)) throw new DataException("Invalid item id '"+icon+"' in column 'ICON'.");
 						int imageIndex = items[icon][0].imageIndex;
@@ -82,8 +82,8 @@ namespace INVedit
 						}
 						groups.Add(name, group);
 					} else if (line[0]=='+') {
-						short id;
-						try { id = short.Parse(split[1]); }
+						string id;
+						try { id = split[1]; }
 						catch (Exception e) { throw new DataException("Failed to parse column 'EID'.", e); }
 						string name = split[2].Replace('_', ' ');
 						short max;
@@ -104,8 +104,8 @@ namespace INVedit
 						enchantments.Add(id,  new Enchantment(id, name, max, itemList));
 					} else {
 						string name = split[1].Replace('_', ' ');
-						short id;
-						try { id = short.Parse(split[0]); }
+						string id;
+						try { id = split[0]; }
 						catch (Exception e) { throw new DataException("Failed to parse column 'ID'.", e); }
 						Image image;
 						try { image = LoadImage(split[2]); }
@@ -180,7 +180,7 @@ namespace INVedit
 			}
 		}
 		
-		internal class Items : Dictionary<short, Dictionary<short, Item>>
+		internal class Items : Dictionary<string, Dictionary<short, Item>>
 		{
 			public void Add(Item item)
 			{
@@ -193,7 +193,7 @@ namespace INVedit
 		
 		internal class Item
 		{
-			public readonly short id;
+			public readonly string id;
 			public readonly string name;
 			public readonly byte stack;
 			public readonly byte preferred;
@@ -201,7 +201,7 @@ namespace INVedit
 			public readonly short maxDamage;
 			public readonly int imageIndex;
 			
-			internal Item(short id, string name, byte stack, byte preferred, short damage, short maxDamage, Image image, int x, int y)
+			internal Item(string id, string name, byte stack, byte preferred, short damage, short maxDamage, Image image, int x, int y)
 			{
 				this.id = id;
 				this.name = name;
@@ -238,12 +238,12 @@ namespace INVedit
 		
 		internal class Enchantment
 		{
-			public readonly short id;
+			public readonly string id;
 			public readonly string name;
 			public readonly short max;
 			public readonly List<short> items;
 			
-			internal Enchantment(short id, string name, short max, List<short> items)
+			internal Enchantment(string id, string name, short max, List<short> items)
 			{
 				this.id = id;
 				this.name = name;

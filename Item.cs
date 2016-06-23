@@ -17,7 +17,7 @@ namespace INVedit
 		}
 		
 		public NbtTag tag;
-		public short ID { get { return (short)tag["id"]; }
+		public string ID { get { return (string)tag["id"]; }
 			set { tag["id"].Value = value; } }
 		public byte Count { get { return (byte)tag["Count"]; }
 			set { tag["Count"].Value = value; } }
