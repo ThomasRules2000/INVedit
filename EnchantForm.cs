@@ -9,7 +9,7 @@ namespace INVedit
 	public partial class EnchantForm : Form
 	{
 		ItemSlot slot;
-		Dictionary<short, Tuple<NbtTag, ListViewItem>> enchantments = new Dictionary<short, Tuple<NbtTag, ListViewItem>>();
+		Dictionary<string, Tuple<NbtTag, ListViewItem>> enchantments = new Dictionary<string, Tuple<NbtTag, ListViewItem>>();
 		
 		public EnchantForm()
 		{

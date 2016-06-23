@@ -15,7 +15,7 @@ namespace INVedit
 		public static readonly ImageList list = new ImageList(){ ColorDepth = ColorDepth.Depth32Bit };
 		public static readonly Items items = new Items();
 		public static readonly Dictionary<string, Group> groups = new Dictionary<string, Group>();
-		public static readonly List<short> enchantable = new List<short>();
+		public static readonly List<string> enchantable = new List<string>();
 		public static readonly Dictionary<string, Enchantment> enchantments = new Dictionary<string, Enchantment>();
 		
 		public static Image unknown;
@@ -180,13 +180,13 @@ namespace INVedit
 			}
 		}
 		
-		internal class Items : Dictionary<string, Dictionary<short, Item>>
+		internal class Items : Dictionary<string, Dictionary<string, Item>>
 		{
 			public void Add(Item item)
 			{
-				Dictionary<short, Item> list;
+				Dictionary<string, Item> list;
 				if (ContainsKey(item.id)) list = this[item.id];
-				else { list = new Dictionary<short, Item>(); Add(item.id, list); }
+				else { list = new Dictionary<string, Item>(); Add(item.id, list); }
 				list.Add(item.damage, item);
 			}
 		}
